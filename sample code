@@ -1,0 +1,15 @@
+ Sample Code: Azure Databricks (PySpark)
+
+# Load CSV file into Spark DataFrame
+df = spark.read.csv('/mnt/retail-data/sales.csv', header=True, inferSchema=True)
+
+# Clean data
+df_clean = df.dropna(subset=["ProductID", "Amount"])
+df_clean = df_clean.withColumnRenamed("Amount", "Revenue")
+
+# Calculate total revenue by product
+revenue_by_product = df_clean.groupBy("ProductName").sum("Revenue")
+
+# Display result
+revenue_by_product.show()
+
